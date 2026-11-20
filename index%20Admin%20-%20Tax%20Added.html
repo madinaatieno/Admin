@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f7f6">
+<title>DocuMarket Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--green:#269e62;--green2:#168451;--ink:#151a18;--muted:#7b8580;--line:#e8ece9;--bg:#f3f6f4;--card:#fff;--soft:#eff6f1;--gold:#f6d34b;--red:#d45a54;--shadow:0 5px 18px #15251b0b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}.login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(135deg,#e8f2ec,#f8faf8)}.login-card{width:min(420px,100%);background:#fff;padding:34px;border-radius:22px;box-shadow:var(--shadow)}.brand{display:flex;align-items:center;gap:10px;font-size:23px;font-weight:800;letter-spacing:-.7px}.brand-mark{width:38px;height:38px;border:2px solid var(--green);border-radius:10px;display:grid;place-items:center;color:var(--green);font-weight:900;font-size:23px}.login-card h1{font-size:25px;margin:30px 0 6px}.muted{color:var(--muted)}.field{display:grid;gap:7px;margin:18px 0}.field input{width:100%;padding:13px 14px;border:1px solid #dce3de;border-radius:11px;outline:none}.field input:focus{border-color:var(--green)}.btn{border:0;border-radius:11px;padding:12px 16px;background:var(--green);color:#fff;font-weight:700}.btn:hover{background:var(--green2)}.btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}.login-card .btn{width:100%;margin-top:8px}.error{color:#b23b35;font-size:13px;min-height:18px} .google-login{margin-top:24px}.google-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:52px;background:#fff!important;color:#202124!important;border:1px solid #dadce0!important;font-weight:650;box-shadow:0 1px 2px #00000010}.google-btn:hover{background:#f8faff!important;border-color:#c5d4eb!important}.google-btn:disabled{opacity:.65;cursor:wait}.google-logo{width:22px;height:22px;display:block;flex:0 0 22px}.login-hint{font-size:13px;color:var(--muted);text-align:center;margin:12px 0 0}.login-card .error{margin-top:16px;line-height:1.45}.layout{min-height:100vh;display:grid;grid-template-columns:250px minmax(0,1fr)}aside{background:#fff;border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100vh}.brand-name{font-size:22px}.search{padding:11px 12px;border:1px solid var(--line);border-radius:11px;width:100%;background:#fafbfa}.nav-label{font-size:11px;color:#929b96;font-weight:800;letter-spacing:1px;padding:0 10px;margin:4px 0}.nav{display:grid;gap:5px}.ui-icon{width:19px;height:19px;flex:0 0 19px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.nav button{display:flex;align-items:center;gap:12px}.kpi-icon .ui-icon{width:24px;height:24px;flex-basis:24px}.btn .ui-icon{width:17px;height:17px;flex-basis:17px}.nav button{border:0;background:transparent;text-align:left;padding:12px 13px;border-radius:10px;color:#303833;font-weight:600}.nav button.active,.nav button:hover{background:var(--green);color:#fff}.side-bottom{margin-top:auto;border-radius:14px;padding:16px;background:#f5f7f5}.side-bottom b{display:block;margin-bottom:5px}.main{min-width:0}.topbar{height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:15px}.crumb{color:#68736d;font-size:13px}.top-actions{display:flex;align-items:center;gap:12px}.avatar{width:36px;height:36px;border-radius:50%;background:#e2f1e7;color:var(--green2);display:grid;place-items:center;font-weight:800}.content{padding:28px 30px 50px;max-width:1600px;margin:auto}.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px}.page-head h1{font-size:26px;margin:0 0 5px;letter-spacing:-.8px}.page-head p{margin:0;color:var(--muted)}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.kpi,.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.kpi{padding:20px;min-height:165px;display:flex;flex-direction:column;align-items:flex-start}.kpi.primary{background:var(--green);color:#fff;border-color:var(--green)}.kpi-icon{width:45px;height:45px;border-radius:50%;display:grid;place-items:center;background:#e8f4eb;color:var(--green2);font-size:22px;margin-bottom:12px}.primary .kpi-icon{background:#dff3e6;color:#146d43}.kpi label{font-weight:650;font-size:14px}.kpi strong{font-size:29px;margin:5px 0}.kpi small{color:var(--muted)}.primary small{color:#e2f5e9}.middle{display:grid;grid-template-columns:minmax(260px,.85fr) minmax(0,1.35fr);gap:16px;margin-top:18px}.panel{padding:19px;min-width:0}.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}.panel h2{font-size:17px;margin:0 0 4px}.panel p{font-size:13px;color:var(--muted);margin:0}.category-list{display:grid;gap:9px}.category{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f6f8f6;border-radius:11px;padding:12px}.category b{font-size:14px}.category span{font-size:12px;color:var(--muted)}.chart-bars{height:220px;display:flex;align-items:flex-end;gap:12px;padding:10px 4px 0;border-bottom:1px solid var(--line)}.bar-col{height:100%;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;min-width:0}.bar{width:min(100%,42px);background:linear-gradient(180deg,#2ca86a,#b9e4c9);border-radius:8px 8px 0 0;min-height:3px}.bar-col small{font-size:11px;color:var(--muted)}.recent{margin-top:18px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th,td{text-align:left;padding:13px 11px;border-bottom:1px solid var(--line);font-size:13px}th{color:#768079;background:#fafbfa;font-weight:700}td{color:#303833}.status{display:inline-block;padding:5px 9px;border-radius:20px;background:#e5f4e9;color:#197548;font-size:11px;font-weight:700}.status.other{background:#f2f3f2;color:#67716b}.section{display:none}.section.active{display:block}.growth-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.notice{background:#fff9e5;border:1px solid #f1e4b6;color:#725d1b;padding:14px;border-radius:12px;font-size:13px;margin-top:16px}.toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.toolbar input{padding:10px 12px;border:1px solid var(--line);border-radius:10px}.empty{padding:35px;text-align:center;color:var(--muted)}.mobile-menu{display:none}
+@media(max-width:1050px){.layout{grid-template-columns:220px minmax(0,1fr)}.kpis,.growth-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.middle{grid-template-columns:1fr}}
+@media(max-width:700px){.layout{display:block}aside{position:fixed;z-index:20;left:-270px;top:0;width:250px;transition:left .2s;box-shadow:0 0 0 100vmax #0005;height:100dvh}aside.open{left:0}.topbar{height:62px;padding:0 15px}.content{padding:20px 14px 35px}.mobile-menu{display:inline-flex}.page-head{align-items:center}.page-head h1{font-size:23px}.kpis,.growth-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.kpi{padding:14px;min-height:145px}.kpi strong{font-size:24px}.panel{padding:14px}.top-actions .crumb{display:none}}
+</style>
+</head>
+<body>
+<div id="loginView" class="login-wrap"><div class="login-card"><div class="brand"><span class="brand-mark">D</span><span>DocuMarket</span></div><h1>Admin sign in</h1><p class="muted">Sign in with your authorized administrator account.</p><div class="google-login"><button class="btn google-btn" id="googleLoginBtn" type="button"><svg class="google-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.7c3.9-3.6 6-8.8 6-15z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.7-5.1c-1.8 1.2-4 1.9-6.8 1.9-5.2 0-9.6-3.5-11.2-8.2H5.9v5.2A20 20 0 0 0 24 44z"/><path fill="#FBBC05" d="M12.8 27.7a12 12 0 0 1 0-7.4v-5.2H5.9a20 20 0 0 0 0 17.8z"/><path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 6.1 29.5 4 24 4A20 20 0 0 0 5.9 15.1l6.9 5.2c1.6-4.7 6-8.2 11.2-8.2z"/></svg><span>Continue with Google</span></button><p class="login-hint">Use the Google account authorized for DocuMarket Admin.</p><p class="error" id="loginError" role="alert" aria-live="polite"></p></div></div></div>
+<div id="appView" class="layout hidden">
+<aside id="sidebar"><div class="brand"><span class="brand-mark">D</span><span class="brand-name">DocuMarket</span></div><input class="search" id="sideSearch" placeholder="Search menu" oninput="filterNav(this.value)"><div><div class="nav-label">MAIN MENU</div><nav class="nav"><button class="active" data-page="overview" onclick="showSection('overview',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></button><button data-page="growth" onclick="showSection('growth',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 3 8-9"/><path d="M15 5h6v6"/></svg><span>Growth Analysis</span></button><button data-page="documentaries" onclick="showSection('documentaries',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5 16 3l4 2v15l-12 2-4-2z"/><path d="m4 5.5 4 2 12-2M8 7.5V22"/></svg><span>Documentaries</span></button><button data-page="marketplace" onclick="showSection('marketplace',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18l-1.5 12h-15z"/><path d="M5 8l2-5h10l2 5M9 12v4m6-4v4"/></svg><span>Marketplace</span></button></nav></div><div><div class="nav-label">FEATURES</div><nav class="nav"><button data-page="transactions" onclick="showSection('transactions',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg><span>Transactions</span></button><button data-page="reports" onclick="showSection('reports',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 16l2-2 2 1 3-4"/></svg><span>Reports</span></button><button data-page="users" onclick="showSection('users',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20v-1.5A5.5 5.5 0 0 1 8 13h2a5.5 5.5 0 0 1 5.5 5.5V20M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14a4.5 4.5 0 0 1 3.5 4.4V20"/></svg><span>Users & Creators</span></button></nav></div><div><div class="nav-label">GENERAL</div><nav class="nav"><button data-page="settings" onclick="showSection('settings',this)"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.2 1-1.5 2.6-1.5-.6a8 8 0 0 1-1.6.9l-.3 1.6h-3l-.3-1.6a8 8 0 0 1-1.6-.9l-1.5.6-1.5-2.6 1.2-1a8 8 0 0 1 0-1.9l-1.2-1 1.5-2.6 1.5.6a8 8 0 0 1 1.6-.9l.3-1.6h3l.3 1.6a8 8 0 0 1 1.6.9l1.5-.6 1.5 2.6-1.2 1a8 8 0 0 1-.1 1.9z"/></svg><span>Settings</span></button><button onclick="signOut()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg><span>Log out</span></button></nav></div><div class="side-bottom"><b>Administrator</b><span class="muted" id="sideEmail">—</span></div></aside>
+<main class="main"><header class="topbar"><div class="top-actions"><button class="btn secondary mobile-menu" onclick="toggleSidebar()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><span class="crumb">DocuMarket　›　<span id="crumb">Dashboard</span></span></div><div class="top-actions"><span class="muted" id="topEmail"></span><div class="avatar">A</div><button class="btn secondary" onclick="signOut()">Log out</button></div></header>
+<div class="content">
+<section id="section-overview" class="section active"><div class="page-head"><div><h1>Overview</h1><p>Here is the summary of your app's overall data</p></div><button class="btn secondary" onclick="loadDashboard()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.5-3"/></svg> Refresh data</button></div>
+<div class="kpis"><article class="kpi primary"><div class="kpi-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20v-1.5A5.5 5.5 0 0 1 8 13h2a5.5 5.5 0 0 1 5.5 5.5V20M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14a4.5 4.5 0 0 1 3.5 4.4V20"/></svg></div><label>Total Creators</label><strong id="totalCreators">—</strong><small>Profiles available to this admin</small></article><article class="kpi"><div class="kpi-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5 16 3l4 2v15l-12 2-4-2z"/><path d="m4 5.5 4 2 12-2M8 7.5V22"/></svg></div><label>Total Documentaries</label><strong id="totalDocs">—</strong><small>Records in documentaries</small></article><article class="kpi"><div class="kpi-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18l-1.5 12h-15z"/><path d="M5 8l2-5h10l2 5M9 12v4m6-4v4"/></svg></div><label>Marketplace Listings</label><strong id="totalListings">—</strong><small>Records in marketplace</small></article><article class="kpi"><div class="kpi-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20v-1.5A5.5 5.5 0 0 1 8 13h2a5.5 5.5 0 0 1 5.5 5.5V20M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14a4.5 4.5 0 0 1 3.5 4.4V20"/></svg></div><label>Total Users</label><strong id="totalUsers">—</strong><small>Profiles visible to this admin</small></article></div>
+<div class="middle"><article class="panel"><div class="panel-head"><div><h2>Content Overview</h2><p>Documentary categories breakdown</p></div></div><div id="categories" class="category-list"><div class="empty">Loading categories…</div></div></article><article class="panel"><div class="panel-head"><div><h2>Monthly Uploads</h2><p>Documentaries created over the last 7 months</p></div><span class="status">Live data</span></div><div id="monthlyTotal" style="font-size:28px;font-weight:800;margin-bottom:6px">—</div><div id="uploadChart" class="chart-bars"><div class="empty">Loading…</div></div></article></div>
+<article class="panel recent"><div class="panel-head"><div><h2>Recent Documentaries / Listings</h2><p>Latest content recorded in DocuMarket</p></div><button class="btn secondary" onclick="showSection('documentaries')">View all →</button></div><div class="table-wrap"><table><thead><tr><th>Title</th><th>Creator ID</th><th>Date</th><th>Category</th><th>Status</th></tr></thead><tbody id="recentRows"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></article></section>
+<section id="section-growth" class="section"><div class="page-head"><div><h1>Growth Analysis</h1><p>Revenue, profit and expenses overview</p></div></div><div class="growth-grid"><article class="kpi primary"><div class="kpi-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 3 8-9"/><path d="M15 5h6v6"/></svg></div><label>Total Revenue</label><strong>Not connected</strong><small>Requires verified payment ledger</small></article><article class="kpi"><div class="kpi-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div><label>Total Profit</label><strong>Not connected</strong><small>Requires verified costs and fees</small></article><article class="kpi"><div class="kpi-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 16l2-2 2 1 3-4"/></svg></div><label>Total Expenses</label><strong>Not connected</strong><small>No expense records configured</small></article><article class="kpi"><div class="kpi-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><label>Total Tax</label><strong id="growthTaxAmount">Not connected</strong><small id="growthTaxDetails">Tax type: — · Rate: — · Amount: —</small></article><article class="kpi"><div class="kpi-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 3 8-9"/><path d="M15 5h6v6"/></svg></div><label>Documentaries</label><strong id="growthDocs">—</strong><small>Current total content records</small></article></div><article class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Tax breakdown</h2><p>Each tax record will show its tax type, percentage rate and calculated amount</p></div></div><div class="table-wrap"><table><thead><tr><th>Kind of tax</th><th>Tax percentage</th><th>Tax amount</th></tr></thead><tbody id="growthTaxRows"><tr><td colspan="3" class="empty">Tax records are not connected yet. Connect a verified tax or payment ledger to display actual tax types, rates and amounts.</td></tr></tbody></table></div></article><article class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Monthly content growth</h2><p>Based on documentary creation dates</p></div></div><div id="growthChart" class="chart-bars"></div><div class="notice">Financial figures are intentionally not estimated or fabricated. Connect verified payment, tax and expense records before showing revenue, tax, profit or expenses here.</div></article></section>
+<section id="section-documentaries" class="section"><div class="page-head"><div><h1>Documentaries</h1><p>Content published on the platform</p></div><button class="btn secondary" onclick="loadDashboard()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.5-3"/></svg> Refresh</button></div><article class="panel"><div class="table-wrap"><table><thead><tr><th>Title</th><th>Creator ID</th><th>Category</th><th>Date</th><th>Status</th></tr></thead><tbody id="docsRows"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></article></section>
+<section id="section-marketplace" class="section"><div class="page-head"><div><h1>Marketplace</h1><p>Listings published by creators</p></div><button class="btn secondary" onclick="loadDashboard()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.5-3"/></svg> Refresh</button></div><article class="panel"><div class="table-wrap"><table><thead><tr><th>Listing</th><th>Seller ID</th><th>Price</th><th>Status</th><th>Date</th></tr></thead><tbody id="marketRows"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></article></section>
+<section id="section-users" class="section"><div class="page-head"><div><h1>Users & Creators</h1><p>Profiles visible under administrator database permissions</p></div><button class="btn secondary" onclick="loadDashboard()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.5-3"/></svg> Refresh</button></div><article class="panel"><div class="table-wrap"><table><thead><tr><th>Name</th><th>Handle</th><th>Account ID</th></tr></thead><tbody id="userRows"><tr><td colspan="3">Loading…</td></tr></tbody></table></div></article></section>
+<section id="section-transactions" class="section"><div class="page-head"><div><h1>Transactions</h1><p>Payment activity</p></div></div><article class="panel empty"><h2>Transaction ledger not connected</h2><p>Your app source currently creates payments through Supabase Edge Functions, but this dashboard has not been given a verified transaction table. No transaction rows or totals are invented.</p></article></section>
+<section id="section-reports" class="section"><div class="page-head"><div><h1>Reports</h1><p>Platform reporting workspace</p></div></div><article class="panel empty">Reports will appear when reporting and moderation records are connected.</article></section>
+<section id="section-settings" class="section"><div class="page-head"><div><h1>Settings</h1><p>Administrator session information</p></div></div><article class="panel"><h2>Signed-in administrator</h2><p id="settingsEmail" class="muted"></p><div class="notice">Access is checked against the Supabase <code>admin_users</code> table. Database Row Level Security policies in the supplied SQL file must also be applied.</div></article></section>
+</div></main></div>
+<script>
+// Public Supabase project settings from the existing Documentary app. The publishable key is designed for browser use; never put a service-role key here.
+const ADMIN_EMAIL='madinaatieno@gmail.com';
+const SUPABASE_URL='https://grsriizukjxfoxscqgoo.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_d3pb06qC7fhm2CMg1R0jWA_KILlHlXJ';
+let sb=null,adminUser=null,cache={profiles:null,docs:null,market:null};
+try{
+  sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
+    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}
+  });
+}catch(e){
+  document.getElementById('loginError').textContent='Could not initialize Supabase: '+(e.message||'unknown error');
+}
+const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const date=v=>{if(!v)return '—';let d=new Date(v);return isNaN(d)?'—':d.toLocaleDateString(undefined,{day:'2-digit',month:'short',year:'numeric'});};const fmt=v=>Number(v||0).toLocaleString();
+function adminRedirectUrl(){
+  // GitHub Pages callback must be the exact deployed page path, without query/hash.
+  return window.location.origin + window.location.pathname;
+}
+function showLoginError(message){
+  const el=$('loginError');
+  if(el)el.textContent=message;
+}
+function setGoogleButtonBusy(busy,label){
+  const btn=$('googleLoginBtn');
+  if(!btn)return;
+  btn.disabled=!!busy;
+  const span=btn.querySelector('span:last-child');
+  if(span)span.textContent=label||(busy?'Connecting…':'Continue with Google');
+}
+$('googleLoginBtn').addEventListener('click',async()=>{
+  if(!sb){showLoginError('Supabase could not be initialized. Check your internet connection and refresh.');return;}
+  showLoginError('');
+  setGoogleButtonBusy(true,'Opening Google…');
+  try{
+    const redirectTo=adminRedirectUrl();
+    const {data,error}=await sb.auth.signInWithOAuth({
+      provider:'google',
+      options:{
+        redirectTo,
+        queryParams:{prompt:'select_account'},
+        skipBrowserRedirect:false
+      }
+    });
+    if(error)throw error;
+    // Supabase normally redirects automatically. If it returned a URL without redirecting,
+    // navigate to that URL explicitly for browsers/webviews that block the automatic redirect.
+    if(data&&data.url)window.location.assign(data.url);
+  }catch(err){
+    console.error('Google OAuth start failed:',err);
+    showLoginError('Google sign-in could not start: '+(err.message||String(err))+
+      ' Check that Google is enabled in Supabase Authentication → Providers.');
+    setGoogleButtonBusy(false);
+  }
+});
+async function verifyAdmin(user){if(!user)throw new Error('Please sign in.');if((user.email||'').toLowerCase()!==ADMIN_EMAIL)throw new Error('This account is not authorized for DocuMarket Admin. Sign in with '+ADMIN_EMAIL+'.');let {data,error}=await sb.from('admin_users').select('user_id,role').eq('user_id',user.id).maybeSingle();if(error){if(error.code==='42P01'||/admin_users.*schema cache|does not exist/i.test(error.message||''))throw new Error('Admin database setup is missing. In Supabase, open SQL Editor and run supabase/admin-setup.sql, then sign in again.');throw new Error('Admin verification failed: '+error.message);}if(!data)throw new Error('Your email is correct, but administrator access has not been activated in Supabase. Run supabase/admin-setup.sql.');adminUser=user;$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('sideEmail').textContent=user.email;$('topEmail').textContent=user.email;$('settingsEmail').textContent=user.email;await loadDashboard();}
+async function signOut(){if(sb)await sb.auth.signOut();adminUser=null;$('appView').classList.add('hidden');$('loginView').classList.remove('hidden');setGoogleButtonBusy(false);showLoginError('');}
+async function loadRows(table,select='*',order='created_at'){
+  let q=sb.from(table).select(select);
+  if(order)q=q.order(order,{ascending:false});
+  let {data,error}=await q.limit(1000);
+  // If a selected column name differs from the live schema, retry with all columns
+  // so the dashboard can still display records that the current account may read.
+  if(error && /column .* does not exist|schema cache/i.test(error.message||'')){
+    let retry=sb.from(table).select('*');
+    if(order)retry=retry.order(order,{ascending:false});
+    const fallback=await retry.limit(1000);
+    if(!fallback.error)return fallback.data||[];
+  }
+  if(error)throw new Error(error.message||'Supabase query failed');
+  return data||[];
+}
+function rowProblem(table,error){
+  const msg=(error&&error.message)||String(error||'');
+  const friendly=/does not exist|schema cache|could not find the table/i.test(msg)
+    ? 'Not connected yet — the '+table+' table or requested fields were not found.'
+    : /permission|row-level security|rls|not allowed/i.test(msg)
+      ? 'Not connected yet — Supabase permissions do not allow this admin to read '+table+'.'
+      : 'Not connected yet — '+table+' could not be read ('+msg+').';
+  return friendly;
+}
+function setRowsMessage(id,message,colspan){if($(id))$(id).innerHTML='<tr><td colspan="'+colspan+'" class="empty">'+esc(message)+'</td></tr>';}
+async function loadDashboard(){
+  if(!adminUser)return;
+  ['recentRows','docsRows','marketRows','userRows'].forEach(id=>{if($(id))$(id).innerHTML='<tr><td colspan="6">Loading…</td></tr>';});
+  const jobs=[
+    ['profiles','profiles','id,name,handle,created_at','created_at'],
+    ['docs','documentaries','id,title,author_id,category,created_at,status','created_at'],
+    ['market','marketplace','id,title,user_id,price,currency_code,status,created_at','created_at']
+  ];
+  const results=await Promise.all(jobs.map(async ([key,table,fields,order])=>{
+    try{return {key,data:await loadRows(table,fields,order),error:null};}
+    catch(error){console.error('DocuMarket admin: '+table,error);return {key,data:null,error};}
+  }));
+  results.forEach(r=>{cache[r.key]=r.data;cache[r.key+'Error']=r.error;});
+  renderAll();
+}
+function renderAll(){
+  const p=cache.profiles,d=cache.docs,m=cache.market;
+  const putCount=(id,data,error)=>{$(id).textContent=error?'Not connected yet':fmt((data||[]).length);};
+  putCount('totalCreators',p,cache.profilesError);putCount('totalUsers',p,cache.profilesError);
+  putCount('totalDocs',d,cache.docsError);putCount('totalListings',m,cache.marketError);
+  $('growthDocs').textContent=cache.docsError?'Not connected yet':fmt((d||[]).length);
+  if(cache.docsError){$('categories').innerHTML='<div class="empty">'+esc(rowProblem('documentaries',cache.docsError))+'</div>';setRowsMessage('recentRows',rowProblem('documentaries',cache.docsError),5);setRowsMessage('docsRows',rowProblem('documentaries',cache.docsError),5);$('uploadChart').innerHTML='<div class="empty">Not connected yet</div>';$('growthChart').innerHTML='<div class="empty">Not connected yet</div>';$('monthlyTotal').textContent='Not connected yet';}
+  else {
+    const docs=d||[],counts={};docs.forEach(x=>{let c=x.category||'Uncategorised';counts[c]=(counts[c]||0)+1;});
+    const cats=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    $('categories').innerHTML=cats.length?cats.map(([name,n])=>'<div class="category"><div><b>'+esc(name)+'</b><br><span>'+fmt(n)+' documentaries</span></div><span>'+Math.round(n/Math.max(1,docs.length)*100)+'%</span></div>').join(''):'<div class="empty">No documentary records yet.</div>';
+    renderChart('uploadChart',docs);renderChart('growthChart',docs);
+    $('monthlyTotal').textContent=fmt(docs.filter(x=>x.created_at&&new Date(x.created_at)>=new Date(new Date().getFullYear(),new Date().getMonth(),1)).length);
+    $('recentRows').innerHTML=docs.slice(0,8).map(x=>'<tr><td>'+esc(x.title||x.name||'Untitled')+'</td><td>'+esc(String(x.author_id||x.user_id||'—').slice(0,15))+'</td><td>'+date(x.created_at)+'</td><td>'+esc(x.category||'—')+'</td><td><span class="status">'+esc(x.status||'Recorded')+'</span></td></tr>').join('')||'<tr><td colspan="5" class="empty">No documentary records yet.</td></tr>';
+    $('docsRows').innerHTML=docs.map(x=>'<tr><td>'+esc(x.title||x.name||'Untitled')+'</td><td>'+esc(String(x.author_id||x.user_id||'—').slice(0,18))+'</td><td>'+esc(x.category||'—')+'</td><td>'+date(x.created_at)+'</td><td>'+esc(x.status||'—')+'</td></tr>').join('')||'<tr><td colspan="5" class="empty">No documentary records yet.</td></tr>';
+  }
+  if(cache.marketError)setRowsMessage('marketRows',rowProblem('marketplace',cache.marketError),5);
+  else $('marketRows').innerHTML=(m||[]).map(x=>'<tr><td>'+esc(x.title||x.name||'Untitled listing')+'</td><td>'+esc(String(x.user_id||x.seller_id||'—').slice(0,18))+'</td><td>'+esc(x.currency_code||x.currency||'USD')+' '+esc(x.price??'—')+'</td><td>'+esc(x.status||'—')+'</td><td>'+date(x.created_at)+'</td></tr>').join('')||'<tr><td colspan="5" class="empty">No marketplace listings yet.</td></tr>';
+  if(cache.profilesError)setRowsMessage('userRows',rowProblem('profiles',cache.profilesError),3);
+  else $('userRows').innerHTML=(p||[]).map(x=>'<tr><td>'+esc(x.name||x.full_name||x.username||'—')+'</td><td>'+esc(x.handle?'@'+x.handle:(x.username?'@'+x.username:'—'))+'</td><td>'+esc(String(x.id||x.user_id||'').slice(0,20))+'</td></tr>').join('')||'<tr><td colspan="3" class="empty">No user profiles yet.</td></tr>';
+}
+function renderChart(id,docs){let now=new Date(),months=[];for(let i=6;i>=0;i--){let d=new Date(now.getFullYear(),now.getMonth()-i,1);months.push({key:d.getFullYear()+'-'+d.getMonth(),label:d.toLocaleDateString(undefined,{month:'short'}),count:0});}docs.forEach(x=>{let d=new Date(x.created_at);let m=months.find(z=>z.key===d.getFullYear()+'-'+d.getMonth());if(m)m.count++;});let max=Math.max(1,...months.map(x=>x.count));$(id).innerHTML=months.map(x=>'<div class="bar-col" title="'+x.label+': '+x.count+' uploads"><div class="bar" style="height:'+Math.max(3,x.count/max*85)+'%"></div><small>'+x.label+'</small></div>').join('');}
+function showSection(name,btn){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$('section-'+name).classList.add('active');document.querySelectorAll('.nav button[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===name));$('crumb').textContent=({overview:'Dashboard',growth:'Growth Analysis',documentaries:'Documentaries',marketplace:'Marketplace',transactions:'Transactions',reports:'Reports',users:'Users & Creators',settings:'Settings'})[name]||name;if(window.innerWidth<=700)$('sidebar').classList.remove('open');}
+function toggleSidebar(){$('sidebar').classList.toggle('open')}function filterNav(q){q=q.toLowerCase();document.querySelectorAll('.nav button[data-page]').forEach(b=>b.style.display=b.textContent.toLowerCase().includes(q)?'':'none');}
+let adminAuthHandling=false;
+async function handleAdminSession(session){
+  if(adminAuthHandling)return;
+  if(!session||!session.user)return;
+  adminAuthHandling=true;
+  showLoginError('');
+  try{
+    await verifyAdmin(session.user);
+    setGoogleButtonBusy(false);
+  }catch(e){
+    console.error('Admin authorization failed:',e);
+    showLoginError(e.message||'Your Google account could not be authorized.');
+    // Keep the session so a setup/permission issue can be corrected without repeating Google login.
+    $('appView').classList.add('hidden');
+    $('loginView').classList.remove('hidden');
+    setGoogleButtonBusy(false);
+  }finally{
+    adminAuthHandling=false;
+  }
+}
+function showOAuthCallbackError(){
+  const params=new URLSearchParams(window.location.search);
+  const hash=new URLSearchParams((window.location.hash||'').replace(/^#/,''));
+  const code=params.get('error_description')||params.get('error')||
+             hash.get('error_description')||hash.get('error');
+  if(code){
+    showLoginError('Google sign-in error: '+decodeURIComponent(code.replace(/\+/g,' ')));
+    // Remove OAuth error parameters from the visible URL, preserving the page path.
+    window.history.replaceState({},document.title,adminRedirectUrl());
+  }
+}
+(async()=>{
+  if(!sb)return;
+  showOAuthCallbackError();
+  const {data,error}=await sb.auth.getSession();
+  if(error){
+    showLoginError('Could not restore your sign-in session: '+error.message);
+    return;
+  }
+  if(data&&data.session)await handleAdminSession(data.session);
+  sb.auth.onAuthStateChange((event,session)=>{
+    if(event==='SIGNED_IN'||event==='TOKEN_REFRESHED'){
+      // Avoid awaiting Supabase calls inside its auth callback.
+      setTimeout(()=>handleAdminSession(session),0);
+    }
+    if(event==='SIGNED_OUT'){
+      adminUser=null;
+      $('appView').classList.add('hidden');
+      $('loginView').classList.remove('hidden');
+      setGoogleButtonBusy(false);
+    }
+  });
+})();
+</script>
+</body></html>
